@@ -1,2 +1,2 @@
-# Procédure de génération d'images Kustomize
+# Procédure de génération d'images de notre cmp-plugin pour ArgoCD
 
