@@ -9,11 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        versions: [v4.5.5]
     env:
-      repo: "govpf/kustomize"
+      repo: "govpf/argocd-cmp-plugin"
     steps:
     - name: Checkout
       uses: actions/checkout@v3.3.0
@@ -31,15 +28,12 @@ jobs:
       uses: docker/build-push-action@v4.0.0
       with:
         context: .
-#        context: ./${{ matrix.versions }}
         file: ./Dockerfile
-#        file: ./${{ matrix.versions }}/Dockerfile
         platforms: linux/amd64
         pull: true
         push: true
         tags: |
           ${{ env.repo }}:latest
-          ${{ env.repo }}:${{ matrix.versions }}
 
     - name: Update repo description
       uses: peter-evans/dockerhub-description@v3.1.2
