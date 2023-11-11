@@ -33,3 +33,21 @@ ENV AVP_VERSION=1.13.1
 ENV BIN=argocd-vault-plugin
 RUN wget -O ${BIN} https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v${AVP_VERSION}/argocd-vault-plugin_${AVP_VERSION}_linux_amd64 && \
     chmod +x ${BIN}
+
+# Install Helm for Helm + Kustomize
+ENV HELM_VERSION=v3.12.0
+ENV HELM_SHA256SUM=87596f12f202513ee694add15c252cf93cde49bc1e5160ca2dbcad93304a7d27
+ENV TAR_FILE="helm-${HELM_VERSION}-linux-amd64.tar.gz"
+ENV BASE_URL="https://get.helm.sh"
+
+# Helm 3.x
+RUN curl -L ${BASE_URL}/${TAR_FILE} | tar xvz && \
+    sha256sum linux-amd64/helm && \
+    echo "$HELM_SHA256SUM  linux-amd64/helm" | sha256sum -c && \
+    mv linux-amd64/helm /usr/bin/helm && \
+    chmod +x /usr/bin/helm && \
+    rm -rf linux-amd64
+
+# Helm Git
+ENV HELMGIT_PLUGIN_VERSION=0.15.1
+RUN helm plugin install https://github.com/aslafy-z/helm-git --version "${HELMGIT_PLUGIN_VERSION}"
