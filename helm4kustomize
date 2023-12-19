@@ -10,12 +10,15 @@ while [[ $# -gt 0 ]]; do
       if [[ ! "$REPO" =~ http.* ]]
       then
         echo "[Hack Kustomize] Removing --repo" 1>&2
-        ARGS="$ARGS $REPO"
+        ARGS="$ARGS $REPO/$3"
+        shift
+        shift
+        shift
       else
         ARGS="$ARGS $1 $2"
+        shift
+        shift
       fi
-      shift # past argument
-      shift # past value
       ;;
     *)
       ARGS="$ARGS $1"
@@ -24,4 +27,4 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-helm $ARGS
+echo "helm $ARGS"
