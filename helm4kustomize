@@ -1,0 +1,27 @@
+#!/bin/bash -e
+
+ARGS=()
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --repo)
+      REPO="$2"
+
+      if [[ ! "$REPO" =~ http.* ]]
+      then
+        echo "[Hack Kustomize] Removing --repo" 1>&2
+        ARGS="$ARGS $REPO"
+      else
+        ARGS="$ARGS $1 $2"
+      fi
+      shift # past argument
+      shift # past value
+      ;;
+    *)
+      ARGS="$ARGS $1"
+      shift # past argument
+      ;;
+  esac
+done
+
+helm $ARGS
