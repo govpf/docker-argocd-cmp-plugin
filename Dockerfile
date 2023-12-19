@@ -51,7 +51,3 @@ RUN curl -L ${BASE_URL}/${TAR_FILE} | tar xvz && \
 # Hack for kustomize
 # In order to use a private helm chart repository
 COPY ./helm4kustomize .
-
-# Helm Git
-ENV HELMGIT_PLUGIN_VERSION=0.15.1
-RUN helm plugin install https://github.com/aslafy-z/helm-git --version "${HELMGIT_PLUGIN_VERSION}"
