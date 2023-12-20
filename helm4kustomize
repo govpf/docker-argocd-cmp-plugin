@@ -1,13 +1,17 @@
 #!/bin/bash -e
 
-ARGS=()
+ARGS=""
+PULL_COMMAND=0
 
 while [[ $# -gt 0 ]]; do
   case $1 in
+    pull)
+      PULL_COMMAND=1
+      ;;
     --repo)
       REPO="$2"
 
-      if [[ ! "$REPO" =~ http.* ]]
+      if [ "$PULL_COMMAND" -eq 1 ] && [[ ! "$REPO" =~ http.* ]]
       then
         echo "[Hack Kustomize] Removing --repo" 1>&2
         ARGS="$ARGS $REPO/$3"
@@ -26,5 +30,20 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [ -n "$OVERRIDE_HELM_CACHE_HOME" ]
+then
+  export HELM_CACHE_HOME="$OVERRIDE_HELM_CACHE_HOME"
+fi
+
+if [ -n "$OVERRIDE_HELM_CONFIG_HOME" ]
+then
+  export HELM_CONFIG_HOME="$OVERRIDE_HELM_CONFIG_HOME"
+fi
+
+if [ -n "$OVERRIDE_HELM_DATA_HOME" ]
+then
+  export HELM_DATA_HOME="$OVERRIDE_HELM_DATA_HOME"
+fi
 
 helm $ARGS
