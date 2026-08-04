@@ -13,6 +13,9 @@ RUN CGO_ENABLED=0 GO111MODULE=on go build \
 
 FROM govpf/alpine:3
 
+LABEL govpf.category="infrastructure"
+LABEL govpf.fromimage="govpf/alpine:3"
+
 WORKDIR /app
 ENV PATH "$PATH:/app"
 
